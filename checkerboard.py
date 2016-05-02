@@ -1,5 +1,8 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
+#问题概述，任何边长为2n的正方形棋盘，任何一个角上缺一个方格，那么该正方形则可以由L型砖块拼接而成
+#可以使用归简法，在正方形中取出一个L型砖块，则可以等到四块都缺角的小方块
+#这样问题就变小，可以采用递归方法将问题持续变小
 
 def cover(board,lab=1,top=0,left=0,side=None):
     if side is None:side=len(board)
