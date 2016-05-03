@@ -19,3 +19,21 @@ def walk(G,s,S=set()):
             P[v]=u
             #记录前趋节点
     return P
+
+#walk函数遍历的只是单个连通分量，由开始节点s决定，所以将其封装在一个涉及所有节点的循环中
+#定义一个访问过的节点，包括已找出的连通分量的所有节点，避免重复操作
+def components(G):
+    comp=[]
+    #保存已有连通分量
+    seen=set()
+    #访问过的节点
+    for u in G:
+        if u in seen:continue
+        #如果该节点已经访问过
+        C=walk(G,u)
+        #传入节点u，从u开始遍历连通分量
+        seen.update(C)
+        #将列表C所有元素加入集合seen
+        comp.append(C)
+        #将该次获得的连通分量添加到comp
+    return comp
