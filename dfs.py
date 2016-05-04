@@ -54,3 +54,34 @@ def dsf(G,s,d,f,S=None,t=0):
         return t
     #与深度优先算法一样，循环只会执行一次，然后递归深入下一层，直到叶节点回溯上一层
     #同时设置叶节点回溯时间f[s]，返回t+1到上一层的循环中，循环中将返回值赋给t，然后进行下一轮循环，或者返回上一级
+
+#迭代深度的深度优先搜索
+#如果图规模很大，无法短时间采用深度优先算法遍历完，而且你仅仅想遍历一个范围内的所有节点
+#可以使用该算法，该算法设定了一个范围值，每次递归都减少一次，当数值为零则停止递归
+def iddfs(G,s):
+    yielded=set()
+    #访问过的节点
+    def recurse(G,s,d,S=None):
+        if s not in yielded:
+            yield s
+            #如果s没有访问过
+            yielded.add(s)
+        if d==0:return
+        #范围计数为零
+        if S is None:S=set()
+        S.add(s)
+        #该次递归记录访问过的节点
+        for u in G[s]:
+            if u in S:continue
+            for v in recurse(G,u,d-1,S):
+            #开始递归，递归到下层，下层节点首先yield自身，然后也进行循环递归
+            #当一次循环完成后，会得到子节点的所有子节点，然后全部yield到上级，然后循环另一个字节点
+            #所以每次递归都能保证获得下层所有节点信息
+                yield v
+    n=len(G)
+    for d in range(n):
+        #在G长度内循环，直到遍历完所有节点
+        if len(yielded)==n:break
+        for u in recurse(G,s,d):
+            yield u
+
