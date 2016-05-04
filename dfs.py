@@ -34,3 +34,23 @@ def iter_dfs(G,s):
         Q.extend(G[u])
         #Q添加u字节点
         yield u
+
+#带时间戳的深度优先搜索
+#为每个节点添加发现时的时间，以及回溯时的时间
+def dsf(G,s,d,f,S=None,t=0):
+    if S is None:S=set()
+    d[s]=t
+    #设置发现时间
+    t+=1
+    #时间t加1
+    S.add(s)
+    #加入访问过的节点
+    for u in G[s]:
+    #循环迭代当前节点字节点进行遍历
+        if u in S:continue
+        t=dsf(G,u,d,f,s,t)
+        f[s]=t
+        t+=1
+        return t
+    #与深度优先算法一样，循环只会执行一次，然后递归深入下一层，直到叶节点回溯上一层
+    #同时设置叶节点回溯时间f[s]，返回t+1到上一层的循环中，循环中将返回值赋给t，然后进行下一轮循环，或者返回上一级
