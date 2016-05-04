@@ -14,7 +14,14 @@ def bfs(G,s):
             #迭代其邻居
             if v in P:continue
             P[v]=u
-            #记录前趋接待能
+            #记录前趋接节点
             Q.append(v)
             #添加到搜索队列
         return P
+
+#如果想获取从a到u的路径，只需要在队列P中往回走
+path=[u]
+while P[u] is not None:
+    path.append(P[u])
+    u=P[u]
+path.reverse
