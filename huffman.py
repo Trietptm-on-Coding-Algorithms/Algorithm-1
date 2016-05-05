@@ -22,3 +22,12 @@ def huffman(seq,frq):
         #将合并节点推入堆中
     return trees[0][-1]
 
+#从哈夫曼树中提取哈夫曼编码
+def codes(tree,prefix=""):
+    if len(tree)==1:
+        yield (tree,prefix)
+        #如果传入的tree长度为零，那么为叶节点，返回编码及前缀码
+        return
+    for bit,child in zip("01",tree):
+        for pair in codes(child,prefix+bit):
+            yield pair
