@@ -24,3 +24,9 @@ def select(seq,k):
         #这是参数需减小，因为序列只取后半部分
     else:
         return select(lo,k)
+
+#快速排序法
+def quicksort(seq):
+    if len(seq)<=1:return seq
+    lo,pi,hi=parttion(seq)
+    return quicksort(lo)+[pi]+quicksort(hi)
