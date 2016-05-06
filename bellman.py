@@ -4,6 +4,7 @@
 def bellman_ford(G,s):
     D,P={s:0},{}
     for rnd in G:
+    #最多循环n次可松弛完毕
         changed=False
         for u in G:
             for v in G[u]:
