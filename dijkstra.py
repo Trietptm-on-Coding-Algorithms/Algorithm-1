@@ -23,3 +23,22 @@ def dijkstra(G,s):
             heappush(Q,(D[v],v))
             #推入堆
     return D,P
+
+#将上述代码增加yiled，变成生成器，实现双向算法
+def bidir_dijkstra(G,s,t):
+    Ds,Dt={},{}
+    forw,back=idijkstra(G,s),idijkstra(G,t)
+    dirs=(Ds,Dt,forw),(Dt,Ds,back)
+    try:
+        for D,other,step in cycle(dirs):
+            v,d=next(step)
+            D[v]=d
+            if v in other:break
+    except StopIteration:return inf
+    m=inf
+    #可能存在更短的路径，需要检查
+    for u in Ds:
+        for v in G[u]:
+            if not v in Dt:continue
+            m=min(m,Ds[u]+G[u][v]+Dt[v])
+    return m
