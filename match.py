@@ -39,3 +39,33 @@ def match(G,X,Y):
             else:
                 M.remove((v,u))
     return M
+
+#使用带标记的遍历寻找增广路径，并对不相交的路径进行计数
+#从起点经过一条路径到达终点，计数增加1，之后从另一条路出发
+#到达某个路口，发现路被前面那条占用，这是forw为空，迭代back返回路径
+#返回前面路径的上一路口，如发现有forw前进路径，则沿着新路径到达终点
+#改变两条路的线路，增加计数
+def paths(G,s,t):
+    H,M,count=tr(G),set(),0
+    while True:
+        Q,P={s},{}
+        while Q:
+            u=Q.pop()
+            if u==t:
+                count+=1
+                break
+            forw=(v for v in G[u] if (u,v) not in M)
+            back=(v for v in H[u] if (v,u) in M)
+            for v in chain(forw,back):
+                if v in P:continue
+                P[v]=u
+                Q.add(v)
+        else:
+            #循环结束，也就是无法再找到增广路径
+            return count
+        while u!=s:
+            u,v=P[u],u
+            if v in G[u]:
+                M.add((u,v))
+            else:
+                M.remove((v,u))
