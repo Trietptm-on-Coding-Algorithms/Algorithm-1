@@ -1,3 +1,3 @@
 # Python Algorithms
-Python算法实现及注解
+Python算法实现及注解.
 
